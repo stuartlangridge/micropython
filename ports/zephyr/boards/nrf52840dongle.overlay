@@ -1,0 +1,37 @@
+/ {
+	fstab {
+		compatible = "zephyr,fstab";
+		lfs: lfs {
+			compatible = "zephyr,fstab,littlefs";
+			mount-point = "/flash";
+			partition = <&storage_partition>;
+			read-size=<16>;
+			prog-size=<256>;
+			cache-size=<1024>;
+			lookahead-size=<32>;
+			block-cycles=<4>;
+		};
+	};
+};
+
+&flash0 {
+  /delete-node/ partitions;
+    partitions {
+        compatible = "fixed-partitions";
+        #address-cells = <1>;
+        #size-cells = <1>;
+        boot_partition: partition@1000 {
+            label = "mcuboot";
+            reg = <0x00001000 0x0000f000>;
+        };
+
+        slot0_partition: partition@10000 {
+            label = "image-0";
+            reg = <0x00010000 0x00066000>;
+        };
+        storage_partition: partition@76000 {
+            label = "storage";
+            reg = <0x00076000 0x0006A000>;
+        };
+    };
+};
