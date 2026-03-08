@@ -52,6 +52,34 @@
             low-power-enable;
         };
     };
+
+    qdec0_default: qdec0_default {
+        group1 {
+            psels = <NRF_PSEL(QDEC_A, 0, 2)>,
+                    <NRF_PSEL(QDEC_B, 0, 22)>;
+            bias-pull-up;
+        };
+    };
+    qdec0_sleep: qdec0_sleep {
+        group1 {
+            psels = <NRF_PSEL(QDEC_A, 0, 2)>,
+                    <NRF_PSEL(QDEC_B, 0, 22)>;
+            bias-pull-up;
+            low-power-enable;
+        };
+    };
+
+    pwm0_default: pwm0_default {
+        group1 {
+            psels = <NRF_PSEL(PWM_OUT0, 0, 29)>;
+        };
+    };
+    pwm0_sleep: pwm0_sleep {
+        group1 {
+            psels = <NRF_PSEL(PWM_OUT0, 0, 29)>;
+            low-power-enable;
+        };
+    };
 };
 
 &spi1 {
@@ -80,7 +108,7 @@ st7735r: st7735r@0 {
     width    = <160>;   /* corrected */
     height   = <80>;    /* corrected */
     x-offset = <0>;
-    y-offset = <24>;    /* mini displays often have a 24px offset */
+    y-offset = <0>;    /* mini displays often have a 24px offset */
 
             madctl  = <0x00>;
             colmod  = <0x05>;
@@ -106,3 +134,18 @@ st7735r: st7735r@0 {
     };
 };
 
+&qdec0 {
+    status = "okay";
+    pinctrl-0 = <&qdec0_default>;
+    pinctrl-1 = <&qdec0_sleep>;
+    pinctrl-names = "default", "sleep";
+    steps = <24>;        /* EC25 has 24 detents per revolution */
+    led-pre = <0>;       /* no LED pin */
+};
+
+&pwm0 {
+    status = "okay";
+    pinctrl-0 = <&pwm0_default>;
+    pinctrl-1 = <&pwm0_sleep>;
+    pinctrl-names = "default", "sleep";
+};
