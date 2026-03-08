@@ -159,6 +159,15 @@ include(${MICROPY_DIR}/py/mkrules.cmake)
 add_dependencies(BUILD_VERSION_HEADER zephyr_generated_headers)
 add_dependencies(${MICROPY_TARGET} zephyr_generated_headers)
 
+# added deflate stuff to allow for decompressing images
+list(APPEND MICROPY_SOURCE_EXTMOD
+    ${MICROPY_DIR}/extmod/moddeflate.c
+)
+list(APPEND MICROPY_SOURCE_LIB
+    ${MICROPY_DIR}/lib/uzlib/tinflate.c
+    ${MICROPY_DIR}/lib/uzlib/adler32.c
+)
+
 target_sources(app PRIVATE
     src/zephyr_start.c
     src/zephyr_getchar.c

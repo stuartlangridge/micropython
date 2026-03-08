@@ -188,3 +188,8 @@ typedef long mp_off_t;
 #ifdef CONFIG_NEWLIB_LIBC
 #define MICROPY_PY_MATH_POW_FIX_NAN (1)
 #endif
+
+
+
+// Add deflate so we can use it to compress images
+#define MICROPY_PY_DEFLATE (1)
